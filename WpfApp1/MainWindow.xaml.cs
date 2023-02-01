@@ -30,17 +30,17 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //using (var connection=new SqlConnection())
+            //using (var connection = new SqlConnection())
             //{
             //    connection.ConnectionString = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;
             //    DataSet set = new DataSet();
             //    var da = new SqlDataAdapter("SELECT Id,Name,Pages,YearPress FROM Books", connection);
 
-            //    da.Fill(set,"Books");
-            //    DataViewManager dvm=new DataViewManager(set);
-            //   // dvm.DataViewSettings["Books"].RowFilter = "Pages>500";
+            //    da.Fill(set, "Books");
+            //    DataViewManager dvm = new DataViewManager(set);
+            //    // dvm.DataViewSettings["Books"].RowFilter = "Pages>500";
             //    dvm.DataViewSettings["Books"].RowFilter = "YearPress>2000 AND Pages>500";
-            //    dvm.DataViewSettings["Books"].Sort = "YearPress DESC";
+            //    //dvm.DataViewSettings["Books"].Sort = "YearPress DESC";
 
             //    DataView dv = dvm.CreateDataView(set.Tables["Books"]);
 
@@ -55,18 +55,18 @@ namespace WpfApp1
             #region Transaction
 
             SqlTransaction sqlTransaction = null;
-            using(var connection = new SqlConnection())
+            using (var connection = new SqlConnection())
             {
                 connection.ConnectionString = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;
                 connection.Open();
 
-                sqlTransaction= connection.BeginTransaction();
+                sqlTransaction = connection.BeginTransaction();
 
                 SqlCommand comm1 = new SqlCommand("INSERT INTO Press(Id,Name) VALUES(@Id,@Name)", connection);
                 comm1.Transaction = sqlTransaction;
 
                 SqlParameter param1 = new SqlParameter();
-                param1.Value = 5566;
+                param1.Value = 5579;
                 param1.ParameterName = "@Id";
                 param1.SqlDbType = SqlDbType.Int;
 
@@ -80,18 +80,18 @@ namespace WpfApp1
 
 
 
-                SqlCommand comm2 = new SqlCommand("sp_UpdateBook",connection);
+                SqlCommand comm2 = new SqlCommand("sp_UpdateBook", connection);
                 comm2.Transaction = sqlTransaction;
                 comm2.CommandType = CommandType.StoredProcedure;
 
                 var p1 = new SqlParameter();
-                p1.Value = 1;
+                p1.Value = 90;
                 p1.ParameterName = "@MyId";
                 p1.SqlDbType = SqlDbType.Int;
 
 
                 var p2 = new SqlParameter();
-                p2.Value = 55555;
+                p2.Value = -55555;
                 p2.ParameterName = "@Page";
                 p2.SqlDbType = SqlDbType.Int;
 
@@ -108,16 +108,16 @@ namespace WpfApp1
 
 
                     #region GetData
-                        DataSet set = new DataSet();
-                        var da = new SqlDataAdapter("SELECT Id,Name,Pages,YearPress FROM Books", connection);
+                    DataSet set = new DataSet();
+                    var da = new SqlDataAdapter("SELECT Id,Name,Pages,YearPress FROM Books", connection);
 
-                        da.Fill(set, "Books");
-                        DataViewManager dvm = new DataViewManager(set);
-                        dvm.DataViewSettings["Books"].Sort = "YearPress DESC";
+                    da.Fill(set, "Books");
+                    DataViewManager dvm = new DataViewManager(set);
+                    dvm.DataViewSettings["Books"].Sort = "YearPress DESC";
 
-                        DataView dv = dvm.CreateDataView(set.Tables["Books"]);
+                    DataView dv = dvm.CreateDataView(set.Tables["Books"]);
 
-                        mygrid.ItemsSource = dv;
+                    mygrid.ItemsSource = dv;
                     #endregion
 
 
